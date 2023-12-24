@@ -1,0 +1,6 @@
+# General ignored files
+.git
+.github
+.gitignore
+LICENSE
+README.md
