@@ -1,0 +1,29 @@
+FROM archlinux
+LABEL maintainer="c012vu5"
+LABEL description="Linux sandbox container"
+RUN mkdir /etc/ssh
+COPY --chown=root:root --chmod=644 Configs/sshd_config /etc/ssh/.
+RUN pacman -Syu --noconfirm \
+                emacs \
+                fish \
+                git \
+                openssh \
+                sed \
+                sudo \
+                wget \
+                && \
+    ssh-keygen -A
+CMD ["/usr/sbin/sshd", "-De"]
+RUN pacman -S --noconfirm \
+              fish \
+              git \
+              which && \
+    useradd -m -s /usr/sbin/bash eisen && \
+    su - eisen -c "mkdir -m 700 ~/.ssh" && \
+    su - eisen -c "wget -qO - https://www.github.com/c012vu5.keys > ~/.ssh/authorized_keys" && \
+    ln -sf /mnt/data /home/eisen/data && \
+    ln -sf /mnt/public /home/eisen/public && \
+    su - eisen -c "git clone https://github.com/c012vu5/.dotfiles.git" && \
+    su - eisen -c "~/.dotfiles/install.sh" && \
+    echo "eisen ALL=(ALL:ALL) ALL" > /etc/sudoers.d/eisen && \
+    echo -e "password\npassword" | passwd eisen

@@ -1,0 +1,29 @@
+services:
+  eisen:
+    build:
+      context: .
+      dockerfile: Dockerfile.eisen
+    container_name: eisen
+    restart: always
+    hostname: sandbox
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - target: 22
+        published: 222
+        protocol: tcp
+    tmpfs: /tmp
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: ${VOL}/sandbox/eisen
+        target: /mnt/data
+      - type: bind
+        source: ${VOL}/sandbox/public
+        target: /mnt/public

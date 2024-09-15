@@ -1,0 +1,11 @@
+UsePAM                          no
+LoginGraceTime                  30s
+MaxAuthTries                    1
+ClientAliveInterval             60
+PermitRootLogin                 no
+PasswordAuthentication          no
+
+KbdInteractiveAuthentication    no
+PrintMotd                       no
+AuthorizedKeysFile              .ssh/authorized_keys
+Subsystem                       sftp /usr/lib/ssh/sftp-server
